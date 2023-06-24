@@ -1,3 +1,5 @@
+package Inventory;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -5,7 +7,7 @@ public class DBconfig {
     private String url = "jdbc:mysql://localhost:3306/";
     private String user = DBCredential.user;
     private String pass = DBCredential.pass;
-    DBconfig(){
+    public DBconfig(){
         try{
             Connection con = DriverManager.getConnection(url, user, pass);
             String query = "SHOW DATABASES;";
@@ -42,12 +44,7 @@ public class DBconfig {
                     list.add(res.getString(1));
                 }
                 if(!list.contains("values")){
-                    query = "CREATE TABLE value (\n" +
-                            "  name VARCHAR(20),\n" +
-                            "  pro_ID INT(6) PRIMARY KEY,\n" +
-                            "  quantity INT(5),\n" +
-                            "  Description varchar(200)\n" +
-                            ");";
+                    query = "CREATE TABLE value (name VARCHAR(20), pro_ID INT(6) PRIMARY KEY, quantity INT(5), Description VARCHAR(200));";
                     stmt.executeUpdate(query);
                     addProducts(con);
                 }
