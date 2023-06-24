@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,7 +38,7 @@ public class UpdateDialog extends JDialog {
         one_count++;
 
         textPId.setText(""+b.getProductid());
-        textPId.setText(b.getPname());
+        textPName.setText(""+b.getPname());
         textDescription.setText(b.getDescription());
         textQuantity.setText(""+b.getQuantity());
 
@@ -46,6 +48,13 @@ public class UpdateDialog extends JDialog {
                 dispose();
             }
         });
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                one_count--;
+            }
+        });
+
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,18 +76,18 @@ public class UpdateDialog extends JDialog {
                         productDAO bk = new productDAO();
                         Connection conn = bk.Connect();
                         PreparedStatement pst = conn.prepareStatement("UPDATE value SET  name=?, pro_id=?, quantity=?, Description=?  WHERE pro_id=?;");
-                        pst.setString(2, name);
-                        pst.setInt(1, productid);
-                        pst.setString(3, Description);
-                        pst.setInt(4, quantity);
-                        pst.setInt(5,initproductid);
+                        pst.setString(1, name);
+                        pst.setInt(2, productid);
+                        pst.setInt(3, quantity);
+                        pst.setString(4, Description);
+                        pst.setInt(5, initproductid);
                         pst.executeUpdate();
                         ViewValues.model.setRowCount(0);
                         productDAO ba = new productDAO();
                         Connection con = ba.Connect();
                         Statement stmt = con.createStatement();
 
-                        ResultSet res = stmt.executeQuery("SELECT * FROM books");
+                        ResultSet res = stmt.executeQuery("SELECT * FROM value");
                         ViewValues.printTable(res);
                         stmt.close();
                         ba.Disconnect();
@@ -95,5 +104,10 @@ public class UpdateDialog extends JDialog {
         });
 
         setVisible(true);
+
     }
+
+
+
+
 }

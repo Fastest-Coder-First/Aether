@@ -65,10 +65,10 @@ public class AddBooks extends JFrame{
                         productDAO b = new productDAO();
                         Connection conn = b.Connect();
                         PreparedStatement pst = conn.prepareStatement("INSERT INTO value VALUES(?,?,?,?);");
-                        pst.setString(2, name);
-                        pst.setInt(1, bookid);
-                        pst.setInt(4, quantity);
-                        pst.setString(3, author);
+                        pst.setString(1, name);
+                        pst.setInt(2, bookid);
+                        pst.setInt(3, quantity);
+                        pst.setString(4, author);
                         int count = pst.executeUpdate();
                         statusmsg.setText(count + " row(s) affected - Values Added to Inventory");
                         textId.setText(null);

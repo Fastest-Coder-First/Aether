@@ -68,7 +68,8 @@ public class layout extends JFrame {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                statusmsg.setText("Exit to the login page");
+                statusmsg.setText("Exit from the Inventory");
+
             }
         });
         setVisible(true);

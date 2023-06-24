@@ -43,7 +43,7 @@ public class DBconfig {
                 while(res.next()){
                     list.add(res.getString(1));
                 }
-                if(!list.contains("values")){
+                if(!list.contains("value")){
                     query = "CREATE TABLE value (name VARCHAR(20), pro_ID INT(6) PRIMARY KEY, quantity INT(5), Description VARCHAR(200));";
                     stmt.executeUpdate(query);
                     addProducts(con);

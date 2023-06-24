@@ -77,10 +77,12 @@ public class ViewValues extends JFrame {
                 super.mouseClicked(e);
                 int i = tableBooks.getSelectedRow();
                 DefaultTableModel model = (DefaultTableModel) tableBooks.getModel();
-                dLabelId.setText(model.getValueAt(i,1).toString());
-                dLabelName.setText(model.getValueAt(i,2).toString());
-                dLabelDescription.setText(model.getValueAt(i,3).toString());
-                dLabelQuantity.setText(model.getValueAt(i,4).toString());
+
+                dLabelName.setText(model.getValueAt(i,1).toString());
+                dLabelId.setText(model.getValueAt(i,2).toString());
+                dLabelQuantity.setText(model.getValueAt(i,3).toString());
+                dLabelDescription.setText(model.getValueAt(i,4).toString());
+
             }
         });
 
@@ -133,7 +135,7 @@ public class ViewValues extends JFrame {
                     try {
                         Inventory b = new Inventory();
                         b.setProductid(Integer.parseInt(dLabelId.getText()));
-                        b.setPname(dLabelName.getText());
+                        b.setPname(dLabelName.getText().toString());
                         b.setDescription(dLabelDescription.getText());
                         b.setQuantity(Integer.parseInt(dLabelQuantity.getText()));
                         UpdateDialog u = new UpdateDialog(b);
@@ -192,12 +194,12 @@ public class ViewValues extends JFrame {
                 }
                 else{
                     try{
-                        String pname = dLabelId.getText();
+                        String pro_ID = dLabelId.getText();
                         String query1 = "SELECT * FROM value WHERE pro_ID=? ;";
                         IssueDAO ib = new IssueDAO();
                         Connection conn = ib.Connect();
                         PreparedStatement pst = conn.prepareStatement(query1);
-                        pst.setString(1,pname);
+                        pst.setString(2,pro_ID);
                         ResultSet res = pst.executeQuery();
 
                         if(res.next()){
@@ -213,11 +215,11 @@ public class ViewValues extends JFrame {
                                 int ans = JOptionPane.showOptionDialog(bookView,"Are you sure to Delete this Value?","Confirm Deletion",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Yes, Do it","No, Don't"},1);
                                 //fire query for deletion
                                 if(ans==JOptionPane.YES_OPTION){
-                                    String query2 = "DELETE FROM value WHERE  name=?;";
+                                    String query2 = "DELETE FROM value WHERE  pro_ID=?;";
                                    productDAO bd = new productDAO();
                                     Connection conn1 = bd.Connect();
                                     PreparedStatement pst1 = conn1.prepareStatement(query2);
-                                    pst1.setString(1, pname);
+                                    pst1.setString(2, pro_ID);
                                     int count = pst1.executeUpdate();
                                     statusmsg.setText(count + " row(s) affected. Value deleted from Inventory.");
                                     pst1.close();
@@ -244,11 +246,11 @@ public class ViewValues extends JFrame {
                             int ans = JOptionPane.showOptionDialog(bookView,"Are you sure to Delete this Product?","Confirm Deletion",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Yes, Do it","No, Don't"},1);
                             //fire query for deletion
                             if(ans==JOptionPane.YES_OPTION){
-                                String query2 = "DELETE FROM value WHERE  name=?;";
+                                String query2 = "DELETE FROM value WHERE  pro_ID=?;";
                                productDAO bd = new productDAO();
                                 Connection conn1 = bd.Connect();
                                 PreparedStatement pst1 = conn1.prepareStatement(query2);
-                                pst1.setString(1, pname);
+                                pst1.setString(2, pro_ID);
                                 int count = pst1.executeUpdate();
                                 statusmsg.setText(count + " row(s) affected. Value deleted from Inventory.");
                                 pst1.close();
